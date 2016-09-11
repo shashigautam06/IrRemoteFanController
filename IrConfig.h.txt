@@ -1,0 +1,8 @@
+#define fan    5     // set this  pin where fan to connect(PWM ONLY)
+#define iRlive 13    //ir remote indicator
+#define code1  40800 //put here ir remote code (+)speed
+#define code2  8160  //put here ir remote code(-)speed
+#define RECV_PIN  A3 // set this  pin to connect IrReciever sensor
+IRrecv irrecv(RECV_PIN); //iR pin setup function
+decode_results recieve_code; //variable to store ir code store 
+int count=0,fanSpeed,fanLCD,speedMin = 1,speedMax = 50; //define fan speed range

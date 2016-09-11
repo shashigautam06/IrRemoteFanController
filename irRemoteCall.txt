@@ -1,0 +1,50 @@
+
+
+void ir_Controll()
+    {  
+      if (irrecv.decode(&recieve_code))
+     
+      {
+         unsigned int iRrecieve_code = recieve_code.value;      
+        led_blink();
+        if(count<=-1)    // remove lesser limit (-ve) range
+        count=0;         // Min limit
+        if(count>=50)   // remove over limit (+ve) range
+        count=50;       //Max limit
+        if(code1==iRrecieve_code)
+        count=count+10;     //set count vlue from +1 to +10 according to fan switch level
+        if(code2==iRrecieve_code)
+        count=count-10;    //set count vlue from -1 to -10 according to fan switch level
+        
+        if(count<=0) //if count value is lower than zero than STOP the fan
+        {   // if count is lower than minimum count
+       fanSpeed = 0;      // fan is not spinning
+       digitalWrite(fan, LOW);    
+       Serial.print("fan stop:"); 
+        }
+       if((count >= speedMin) && (count <= speedMax)) //if count value between speedMin and speedMax 
+        { // if temperature is higher than minimum temp
+       fanSpeed = map(count, speedMin, speedMax, 32, 255); // the actual speed of fan
+       fanLCD = map(count, speedMin, speedMax, 0, 100);  // speed of fan to display on LCD
+      // fanSpeed = map(count, 0, 1023, 0, 255);
+       analogWrite(fan, fanSpeed);  // spin the fan at the fanSpeed speed(PWM PIN ONLY)
+       Serial.print("fan speed :"); 
+       Serial.print(fanLCD);
+       Serial.println("%"); 
+        } 
+         if(count > speedMax) // if count value higher than speedMax than fan speed on FULL speed
+        {        // if count is higher than speedMax
+          digitalWrite(fan , HIGH);  // turn on fan full speed
+          Serial.print(" Fan speed is 100% "); 
+        } 
+        
+      Serial.print(" count :"); 
+      Serial.print(count); 
+      Serial.print("  pressed button code :"); 
+      Serial.println(iRrecieve_code); //here is IrRemote code you have to put in code1(+speed) and code2(-speed) for new Remote
+      irrecv.resume();
+       
+     
+   }
+    }
+      
