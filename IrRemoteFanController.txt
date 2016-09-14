@@ -1,4 +1,5 @@
 /*
+* Atmega328 
  * IrRemoteFanController: Any home irRemote canbe use to control fan speed 
  * An IR detector must be connected to the input RECV_PIN .
  * An Fan module must be connected to the output PWM pin 5.
